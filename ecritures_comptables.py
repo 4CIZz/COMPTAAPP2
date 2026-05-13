@@ -16,228 +16,589 @@ st.set_page_config(
 # ─────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; }
-html, body, [data-testid="stAppViewContainer"] { background: #0f1117 !important; }
-[data-testid="stAppViewContainer"] > .main { background: #0f1117; }
+
+html, body, [data-testid="stAppViewContainer"] {
+    background: #080b12 !important;
+}
+[data-testid="stAppViewContainer"] > .main {
+    background: #080b12;
+    padding-bottom: 3rem;
+}
 [data-testid="stSidebar"] { display: none; }
 #MainMenu, footer, header { visibility: hidden; }
 [data-testid="stDecoration"] { display: none; }
 
 html, body, p, span, div, label {
-    font-family: 'DM Sans', sans-serif;
-    color: #e8e8e8;
+    font-family: 'Inter', sans-serif;
+    color: #cbd5e1;
 }
 
+/* ── HERO ── */
 .hero {
     text-align: center;
-    padding: 2.5rem 1rem 1.5rem;
+    padding: 3rem 1rem 2rem;
     position: relative;
 }
 .hero::before {
     content: '';
     position: absolute;
-    top: 0; left: 50%;
+    top: -40px; left: 50%;
     transform: translateX(-50%);
-    width: 600px; height: 250px;
-    background: radial-gradient(ellipse at center, rgba(99,179,237,0.07) 0%, transparent 70%);
+    width: 700px; height: 300px;
+    background: radial-gradient(ellipse at center,
+        rgba(99,102,241,0.12) 0%,
+        rgba(139,92,246,0.06) 40%,
+        transparent 70%);
     pointer-events: none;
 }
 .hero-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: #63b3ed;
-    margin-bottom: 0.6rem;
+    color: #818cf8;
+    margin-bottom: 0.8rem;
+    display: block;
 }
 .hero-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.6rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    line-height: 1.1;
+    margin: 0 0 0.6rem;
+    letter-spacing: -0.03em;
+}
+.hero-sub {
+    font-size: 0.95rem;
+    color: #475569;
+    margin: 0;
     font-weight: 400;
-    color: #ffffff;
-    line-height: 1.15;
-    margin: 0 0 0.4rem;
-}
-.hero-sub { font-size: 0.9rem; color: #666; margin: 0; }
-
-.enonce-card {
-    background: #1a1d27;
-    border: 1px solid #2a2d3a;
-    border-left: 4px solid #63b3ed;
-    border-radius: 12px;
-    padding: 1.4rem 1.8rem;
-    margin: 0 auto 1.5rem;
-    max-width: 860px;
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #d0d8e8;
-}
-.enonce-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #63b3ed;
-    margin-bottom: 0.5rem;
 }
 
-.col-header {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #444;
-    padding: 0.4rem 0;
-    border-bottom: 1px solid #2a2d3a;
-    margin-bottom: 0.4rem;
-}
-
-.feedback {
-    max-width: 860px;
-    margin: 0 auto 1.2rem;
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
-    font-size: 0.88rem;
-}
-.feedback.correct {
-    background: rgba(104,211,145,0.08);
-    border: 1px solid rgba(104,211,145,0.25);
-    color: #68d391;
-}
-.feedback.wrong {
-    background: rgba(252,129,129,0.08);
-    border: 1px solid rgba(252,129,129,0.25);
-    color: #fc8181;
-}
-
+/* ── SCORE BAR ── */
 .score-bar {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
-    background: #1a1d27;
-    border: 1px solid #2a2d3a;
-    border-radius: 14px;
-    padding: 1rem 2rem;
-    margin: 0 auto 1.5rem;
+    gap: 0;
+    background: #0f1520;
+    border: 1px solid #1e2535;
+    border-radius: 16px;
+    padding: 0;
+    margin: 0 auto 1.8rem;
     max-width: 860px;
+    overflow: hidden;
 }
-.score-item { text-align: center; }
+.score-item {
+    text-align: center;
+    padding: 1rem 2.5rem;
+    flex: 1;
+    position: relative;
+}
+.score-item + .score-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 20%; height: 60%;
+    width: 1px;
+    background: #1e2535;
+}
 .score-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.8rem;
-    color: #63b3ed;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #818cf8;
     line-height: 1;
+    letter-spacing: -0.02em;
 }
-.score-num.green { color: #68d391; }
-.score-num.red   { color: #fc8181; }
+.score-num.green { color: #34d399; }
+.score-num.red   { color: #f87171; }
 .score-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #444;
-    margin-top: 0.2rem;
+    color: #334155;
+    margin-top: 0.3rem;
 }
-.score-divider { width: 1px; height: 36px; background: #2a2d3a; }
+.score-divider { display: none; }
 
+/* ── BADGE CATÉGORIE ── */
+.cat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(99,102,241,0.08);
+    color: #818cf8;
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    margin-bottom: 0.9rem;
+}
+
+/* ── ÉNONCÉ ── */
+.enonce-card {
+    background: #0d1221;
+    border: 1px solid #1e2535;
+    border-radius: 16px;
+    padding: 1.6rem 2rem;
+    margin: 0 auto 1.8rem;
+    max-width: 860px;
+    font-size: 0.97rem;
+    line-height: 1.75;
+    color: #94a3b8;
+    position: relative;
+    overflow: hidden;
+}
+.enonce-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(180deg, #6366f1, #8b5cf6);
+    border-radius: 3px 0 0 3px;
+}
+.enonce-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #6366f1;
+    margin-bottom: 0.7rem;
+    display: block;
+}
+
+/* ── SECTION TITLE ── */
+.section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #64748b;
+    max-width: 860px;
+    margin: 0 auto 0.8rem;
+}
+
+/* ── TABLEAU ── */
+.col-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #64748b;
+    padding: 0.5rem 0.3rem;
+    border-bottom: 1px solid #2a3550;
+    margin-bottom: 0.5rem;
+}
+
+/* ── INPUTS ── */
 [data-testid="stTextInput"] input {
-    background: #13151f !important;
-    border: 1px solid #2a2d3a !important;
-    border-radius: 6px !important;
-    color: #e0e0e0 !important;
-    font-family: 'DM Mono', monospace !important;
-    font-size: 0.85rem !important;
-    padding: 0.45rem 0.6rem !important;
+    background: #0d1221 !important;
+    border: 1px solid #1e2535 !important;
+    border-radius: 10px !important;
+    color: #e2e8f0 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.83rem !important;
+    padding: 0.55rem 0.75rem !important;
+    transition: border-color 0.15s, box-shadow 0.15s !important;
 }
 [data-testid="stTextInput"] input:focus {
-    border-color: #63b3ed !important;
-    box-shadow: 0 0 0 2px rgba(99,179,237,0.12) !important;
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.1) !important;
+    background: #0f1520 !important;
+}
+[data-testid="stTextInput"] input::placeholder {
+    color: #3d4f6b !important;
 }
 [data-testid="stTextInput"] label { display: none !important; }
 
+/* ── BOUTON PRINCIPAL ── */
 [data-testid="stButton"] > button {
-    font-family: 'DM Sans', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-weight: 600 !important;
     font-size: 0.88rem !important;
-    background: #63b3ed !important;
-    color: #0f1117 !important;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+    color: #ffffff !important;
     border: none !important;
-    border-radius: 9px !important;
-    padding: 0.7rem 2rem !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 2rem !important;
     cursor: pointer !important;
-    transition: all 0.18s ease !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 4px 15px rgba(99,102,241,0.25) !important;
+    letter-spacing: 0.01em !important;
 }
 [data-testid="stButton"] > button:hover {
-    background: #90cdf4 !important;
-    box-shadow: 0 0 20px rgba(99,179,237,0.2) !important;
-    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 25px rgba(99,102,241,0.4) !important;
+    transform: translateY(-2px) !important;
+    background: linear-gradient(135deg, #7c7ff3 0%, #9d6ef8 100%) !important;
 }
-.btn-secondary [data-testid="stButton"] > button {
-    background: transparent !important;
-    color: #555 !important;
-    border: 1px solid #2a2d3a !important;
-}
-.btn-secondary [data-testid="stButton"] > button:hover {
-    border-color: #444 !important;
-    color: #999 !important;
-    background: #1a1d27 !important;
-    box-shadow: none !important;
+[data-testid="stButton"] > button:active {
+    transform: translateY(0) !important;
 }
 
+/* ── BOUTON SECONDAIRE ── */
+.btn-secondary [data-testid="stButton"] > button {
+    background: transparent !important;
+    color: #475569 !important;
+    border: 1px solid #1e2535 !important;
+    box-shadow: none !important;
+}
+.btn-secondary [data-testid="stButton"] > button:hover {
+    border-color: #334155 !important;
+    color: #64748b !important;
+    background: #0d1221 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* ── PROGRESS BAR ── */
 [data-testid="stProgress"] > div > div {
-    background: linear-gradient(90deg, #63b3ed, #4299e1) !important;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6) !important;
     border-radius: 4px !important;
 }
 [data-testid="stProgress"] > div {
-    background: #2a2d3a !important;
+    background: #1e2535 !important;
     border-radius: 4px !important;
+    height: 4px !important;
 }
 
+/* ── FEEDBACK ── */
+.feedback {
+    max-width: 860px;
+    margin: 0 auto 1.4rem;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.feedback.correct {
+    background: rgba(52,211,153,0.07);
+    border: 1px solid rgba(52,211,153,0.2);
+    color: #34d399;
+}
+.feedback.wrong {
+    background: rgba(248,113,113,0.07);
+    border: 1px solid rgba(248,113,113,0.2);
+    color: #f87171;
+}
+
+/* ── CORRECTION VALEURS ── */
+.corr-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.83rem;
+    padding: 0.45rem 0.2rem;
+}
+
+/* ── SEPARATEUR ── */
+hr {
+    border: none !important;
+    border-top: 1px solid #1e2d45 !important;
+    margin: 0.2rem 0 !important;
+}
+
+/* ── SLIDER ── */
+[data-testid="stSlider"] [data-baseweb="slider"] div[role="slider"] {
+    background: #6366f1 !important;
+    border-color: #6366f1 !important;
+}
+
+/* ── END CARD ── */
 .end-card {
     text-align: center;
-    background: #1a1d27;
-    border: 1px solid #2a2d3a;
-    border-radius: 20px;
-    padding: 3rem 2rem;
-    max-width: 500px;
+    background: #0d1221;
+    border: 1px solid #1e2535;
+    border-radius: 24px;
+    padding: 3.5rem 2rem;
+    max-width: 480px;
     margin: 2rem auto;
+    position: relative;
+    overflow: hidden;
 }
-.end-score { font-family: 'DM Serif Display', serif; font-size: 4rem; color: #63b3ed; }
-.end-label { font-size: 0.95rem; color: #666; margin: 0.5rem 0 1.5rem; }
-.end-grade { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: #fff; }
-
-.cat-badge {
-    display: inline-block;
-    background: rgba(99,179,237,0.1);
-    color: #63b3ed;
-    border: 1px solid rgba(99,179,237,0.2);
-    border-radius: 20px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.8rem;
-    margin-bottom: 0.8rem;
+.end-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 300px; height: 200px;
+    background: radial-gradient(ellipse, rgba(99,102,241,0.12) 0%, transparent 70%);
+    pointer-events: none;
+}
+.end-score {
+    font-family: 'Inter', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: #818cf8;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+.end-label { font-size: 0.9rem; color: #475569; margin: 0.6rem 0 1.8rem; }
+.end-grade {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #e2e8f0;
 }
 
-.section-title {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #444;
-    max-width: 860px;
-    margin: 0 auto 0.6rem;
+/* ── ACCUEIL CARD ── */
+.welcome-card {
+    background: #0d1221;
+    border: 1px solid #1e2535;
+    border-radius: 18px;
+    padding: 2rem 2.2rem;
+    margin-bottom: 1.5rem;
+    line-height: 2;
 }
-
-.corr-val { font-family: monospace; font-size: 0.85rem; padding: 0.4rem 0; }
-
-hr { border-color: #1f2233 !important; margin: 0.15rem 0 !important; }
 </style>
 """, unsafe_allow_html=True)
+
+
+# ─────────────────────────────────────────────
+#  PLAN COMPTABLE (auto-complétion libellé)
+# ─────────────────────────────────────────────
+PLAN_COMPTABLE = {
+    "101":   "Capital social",
+    "104":   "Primes liées au capital social",
+    "106":   "Réserves",
+    "110":   "Report à nouveau (solde créditeur)",
+    "119":   "Report à nouveau (solde débiteur)",
+    "120":   "Résultat de l'exercice (bénéfice)",
+    "129":   "Résultat de l'exercice (perte)",
+    "131":   "Subventions d'équipement",
+    "142":   "Provisions réglementées",
+    "151":   "Provisions pour risques",
+    "155":   "Provisions pour impôts",
+    "161":   "Emprunts obligataires",
+    "162":   "Emprunts et dettes auprès des établissements de crédit",
+    "163":   "Autres emprunts obligataires",
+    "164":   "Emprunts auprès des établissements de crédit",
+    "165":   "Dépôts et cautionnements reçus",
+    "166":   "Participation des salariés aux résultats",
+    "167":   "Emprunts et dettes assortis de conditions particulières",
+    "168":   "Autres emprunts et dettes assimilées",
+    "169":   "Primes de remboursement des obligations",
+    "171":   "Dettes rattachées à des participations (groupe)",
+    "174":   "Dettes rattachées à des participations (hors groupe)",
+    "181":   "Dettes rattachées à des sociétés en participation",
+    "251":   "Parts dans des entreprises liées",
+    "261":   "Titres de participation",
+    "271":   "Titres immobilisés (droit de propriété)",
+    "272":   "Titres immobilisés (droit de créance)",
+    "274":   "Prêts",
+    "275":   "Dépôts et cautionnements versés",
+    "280":   "Amortissements des immobilisations incorporelles",
+    "281":   "Amortissements des immobilisations corporelles",
+    "2801":  "Amortissements des frais d'établissement",
+    "2803":  "Amortissements des frais de développement",
+    "2805":  "Amortissements des concessions",
+    "2807":  "Amortissements du fonds commercial",
+    "2811":  "Amortissements des terrains",
+    "2812":  "Amortissements des agencements de terrains",
+    "2813":  "Amortissements des constructions",
+    "2814":  "Amortissements des constructions sur sol d'autrui",
+    "2815":  "Amortissements des installations techniques",
+    "2818":  "Amortissements des autres immobilisations corporelles",
+    "28183": "Amortissements du matériel",
+    "2182":  "Matériel de transport",
+    "2183":  "Matériel informatique",
+    "2184":  "Mobilier",
+    "2185":  "Matériel de bureau",
+    "291":   "Dépréciations des immobilisations incorporelles",
+    "292":   "Dépréciations des immobilisations corporelles",
+    "296":   "Dépréciations des participations et créances rattachées",
+    "297":   "Dépréciations des autres immobilisations financières",
+    "301":   "Matières premières",
+    "302":   "Autres approvisionnements",
+    "310":   "Produits en cours",
+    "320":   "Produits intermédiaires et finis",
+    "370":   "Stocks de marchandises",
+    "380":   "Stocks de services en cours",
+    "391":   "Dépréciations des matières premières",
+    "397":   "Dépréciations des stocks de marchandises",
+    "401":   "Fournisseurs",
+    "403":   "Fournisseurs — effets à payer",
+    "404":   "Fournisseurs d'immobilisations",
+    "405":   "Fournisseurs d'immobilisations — effets à payer",
+    "408":   "Fournisseurs — factures non parvenues",
+    "409":   "Fournisseurs débiteurs",
+    "411":   "Clients",
+    "413":   "Clients — effets à recevoir",
+    "416":   "Clients douteux ou litigieux",
+    "418":   "Clients — produits non encore facturés",
+    "419":   "Clients créditeurs",
+    "421":   "Personnel — rémunérations dues",
+    "422":   "Comités d'entreprise",
+    "423":   "Participation des salariés",
+    "424":   "Participation syndicale",
+    "425":   "Personnel — avances et acomptes",
+    "426":   "Personnel — dépôts",
+    "427":   "Personnel — oppositions",
+    "428":   "Personnel — charges à payer et produits à recevoir",
+    "431":   "Sécurité sociale",
+    "437":   "Autres organismes sociaux",
+    "438":   "Organismes sociaux — charges à payer et produits à recevoir",
+    "441":   "État — TVA",
+    "4452":  "TVA due intracommunautaire",
+    "44562": "TVA déductible sur immobilisations",
+    "44566": "TVA déductible sur ABS",
+    "44571": "TVA collectée",
+    "44581": "Acomptes — Régime simplifié d'imposition",
+    "447":   "Autres impôts, taxes et versements assimilés",
+    "448":   "État — Charges à payer et produits à recevoir",
+    "451":   "Groupe",
+    "455":   "Associés — comptes courants",
+    "456":   "Associés — opérations sur le capital",
+    "457":   "Associés — dividendes à payer",
+    "458":   "Associés — opérations faites en commun",
+    "462":   "Créances sur cessions d'immobilisations",
+    "464":   "Dettes sur acquisitions de valeurs mobilières de placement",
+    "465":   "Créances sur cessions de valeurs mobilières de placement",
+    "467":   "Autres comptes débiteurs ou créditeurs",
+    "468":   "Divers — charges à payer et produits à recevoir",
+    "471":   "Opérations en instance (débit)",
+    "472":   "Opérations en instance (crédit)",
+    "474":   "Différences de conversion — Actif",
+    "475":   "Différences de conversion — Passif",
+    "476":   "Différences de conversion — Actif (éléments financiers)",
+    "477":   "Différences de conversion — Passif (éléments financiers)",
+    "481":   "Charges à répartir sur plusieurs exercices",
+    "486":   "Charges constatées d'avance",
+    "487":   "Produits constatés d'avance",
+    "491":   "Dépréciations des comptes clients",
+    "495":   "Dépréciations des comptes du groupe et associés",
+    "496":   "Dépréciations des débiteurs divers",
+    "501":   "Valeurs mobilières de placement",
+    "511":   "Valeurs à l'encaissement",
+    "512":   "Banque",
+    "514":   "Chèques postaux",
+    "516":   "Dividendes à encaisser",
+    "518":   "Intérêts courus",
+    "519":   "Concours bancaires courants",
+    "530":   "Caisse",
+    "531":   "Chèques postaux",
+    "532":   "Banque (étranger)",
+    "580":   "Virements internes",
+    "590":   "Dépréciations des valeurs mobilières de placement",
+    "601":   "Achats stockés — matières premières",
+    "602":   "Achats stockés — autres approvisionnements",
+    "603":   "Variations des stocks (approvisionnements et marchandises)",
+    "604":   "Achats d'études et prestations de services",
+    "605":   "Achats de matériels, équipements et travaux",
+    "606":   "Achats non stockés de matières et fournitures",
+    "607":   "Achats de marchandises",
+    "608":   "Frais accessoires sur achats",
+    "609":   "Rabais, remises et ristournes obtenus sur achats",
+    "611":   "Sous-traitance générale",
+    "612":   "Redevances de crédit-bail et contrats similaires",
+    "613":   "Locations et charges locatives",
+    "614":   "Charges locatives et de copropriété",
+    "615":   "Entretien et réparations",
+    "616":   "Primes d'assurances",
+    "617":   "Études et recherches",
+    "618":   "Divers",
+    "619":   "Rabais, remises et ristournes obtenus sur services extérieurs",
+    "621":   "Personnel extérieur à l'entreprise",
+    "622":   "Rémunérations d'intermédiaires et honoraires",
+    "623":   "Publicité, publications, relations publiques",
+    "624":   "Transports de biens et transports collectifs du personnel",
+    "6251":  "Voyages et déplacements",
+    "6256":  "Missions",
+    "6257":  "Réceptions",
+    "626":   "Frais postaux et frais de télécommunications",
+    "627":   "Services bancaires et assimilés",
+    "628":   "Divers (autres charges externes)",
+    "629":   "Rabais, remises et ristournes obtenus sur autres services",
+    "631":   "Impôts, taxes et versements assimilés sur rémunérations",
+    "633":   "Impôts, taxes et versements assimilés sur rémunérations (autres)",
+    "635":   "Autres impôts, taxes et versements assimilés",
+    "637":   "Autres impôts, taxes et versements assimilés (autres organismes)",
+    "641":   "Salaires et appointements",
+    "644":   "Rémunération du travail de l'exploitant",
+    "645":   "Charges sociales patronales",
+    "646":   "Cotisations sociales personnelles de l'exploitant",
+    "647":   "Autres charges sociales",
+    "648":   "Autres charges de personnel",
+    "651":   "Redevances pour concessions, brevets, licences",
+    "652":   "Charges de gestion courante (autres)",
+    "653":   "Jetons de présence",
+    "654":   "Pertes sur créances irrécouvrables",
+    "655":   "Quotes-parts de résultat sur opérations faites en commun",
+    "658":   "Charges diverses de gestion courante",
+    "661":   "Charges d'intérêts",
+    "664":   "Pertes sur créances liées à des participations",
+    "665":   "Escomptes accordés",
+    "666":   "Pertes de change",
+    "667":   "Charges nettes sur cessions de VMP",
+    "668":   "Autres charges financières",
+    "671":   "Charges exceptionnelles sur opérations de gestion",
+    "675":   "Valeurs comptables des éléments d'actifs cédés",
+    "678":   "Autres charges exceptionnelles",
+    "681":   "Dotations aux amortissements et aux provisions (charges d'exploitation)",
+    "6811":  "Dotations aux amortissements des immobilisations",
+    "6812":  "Dotations aux amortissements des charges à répartir",
+    "6815":  "Dotations aux provisions pour risques et charges d'exploitation",
+    "6816":  "Dotations aux dépréciations des immobilisations",
+    "6817":  "Dotations aux provisions — dépréciation créances",
+    "686":   "Dotations aux amortissements, dépréciations et provisions (charges financières)",
+    "687":   "Dotations aux amortissements, dépréciations et provisions (charges exceptionnelles)",
+    "691":   "Participation des salariés aux résultats",
+    "695":   "Impôts sur les bénéfices",
+    "699":   "Produits — report en arrière des déficits",
+    "701":   "Ventes de produits finis",
+    "702":   "Ventes de produits intermédiaires",
+    "703":   "Ventes de produits résiduels",
+    "704":   "Travaux",
+    "705":   "Études",
+    "706":   "Prestations de services",
+    "707":   "Ventes de marchandises",
+    "708":   "Produits des activités annexes",
+    "709":   "Rabais, remises et ristournes accordés",
+    "711":   "Variation des stocks de produits en cours",
+    "713":   "Variation des stocks de produits",
+    "721":   "Production immobilisée — immobilisations incorporelles",
+    "722":   "Production immobilisée — immobilisations corporelles",
+    "731":   "Produits nets partiels sur opérations à long terme",
+    "740":   "Subventions d'exploitation",
+    "751":   "Redevances pour concessions, brevets, licences",
+    "752":   "Revenus des immeubles non affectés aux activités professionnelles",
+    "753":   "Jetons de présence et rémunérations d'administrateurs",
+    "754":   "Ristournes perçues des coopératives",
+    "755":   "Quotes-parts de résultat sur opérations faites en commun",
+    "758":   "Produits divers de gestion courante",
+    "761":   "Produits de participations",
+    "762":   "Produits des autres immobilisations financières",
+    "763":   "Revenus des autres créances",
+    "764":   "Revenus des valeurs mobilières de placement",
+    "765":   "Escomptes obtenus",
+    "766":   "Gains de change",
+    "767":   "Produits nets sur cessions de VMP",
+    "768":   "Autres produits financiers",
+    "771":   "Produits exceptionnels sur opérations de gestion",
+    "775":   "Produits des cessions d'éléments d'actif",
+    "777":   "Quote-part des subventions virée au résultat",
+    "778":   "Autres produits exceptionnels",
+    "781":   "Reprises sur amortissements et provisions (produits d'exploitation)",
+    "786":   "Reprises sur dépréciations et provisions (produits financiers)",
+    "787":   "Reprises sur dépréciations et provisions (produits exceptionnels)",
+    "791":   "Transferts de charges d'exploitation",
+    "796":   "Transferts de charges financières",
+    "797":   "Transferts de charges exceptionnelles",
+}
+
+
+def auto_libelle(compte_key, libelle_key):
+    compte = norm_compte(st.session_state.get(compte_key, ""))
+    if compte in PLAN_COMPTABLE:
+        st.session_state[libelle_key] = PLAN_COMPTABLE[compte]
 
 
 # ─────────────────────────────────────────────
@@ -463,7 +824,6 @@ def corriger(lignes, idx):
 
     for i in range(nb):
         compte_s  = st.session_state.get(f"c_{idx}_{i}", "")
-        libelle_s = st.session_state.get(f"l_{idx}_{i}", "")
         debit_s   = st.session_state.get(f"d_{idx}_{i}", "")
         credit_s  = st.session_state.get(f"cr_{idx}_{i}", "")
 
@@ -472,7 +832,7 @@ def corriger(lignes, idx):
         if cle in attendus and cle not in resultats_map:
             ligne = attendus[cle]
             ok_compte  = True
-            ok_libelle = libelle_ok(libelle_s, ligne["libelle"])
+            ok_libelle = True  # libellé auto-rempli, pas évalué
             if ligne["debit"] is not None:
                 ok_debit = norm_montant(debit_s) == ligne["debit"]
             else:
@@ -532,9 +892,9 @@ s = st.session_state
 # ─────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
-    <p class="hero-label">Entraînement pratique</p>
+    <span class="hero-label">Entraînement pratique</span>
     <h1 class="hero-title">Écritures Comptables</h1>
-    <p class="hero-sub">Lisez l'énoncé — remplissez le journal de A à Z</p>
+    <p class="hero-sub">Lisez l'énoncé · Remplissez le journal de A à Z</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -547,14 +907,17 @@ if s["phase"] == "accueil":
     col = st.columns([1, 3, 1])[1]
     with col:
         st.markdown("""
-        <div style="background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;padding:1.8rem 2rem;margin-bottom:1.5rem;">
-            <p style="color:#888;font-size:0.88rem;line-height:1.9;margin:0;">
-                Un énoncé décrit une opération. Le journal est <strong style="color:#e0e0e0">entièrement vide</strong>.<br>
-                Pour chaque ligne saisissez :<br>
-                &nbsp;&nbsp;🔵 <span style="color:#63b3ed;font-family:monospace">N° de compte</span><br>
-                &nbsp;&nbsp;📝 <span style="color:#ccc;font-family:monospace">Libellé</span><br>
-                &nbsp;&nbsp;🟢 <span style="color:#68d391;font-family:monospace">Débit €</span> (laisser vide si rien)<br>
-                &nbsp;&nbsp;🔴 <span style="color:#fc8181;font-family:monospace">Crédit €</span> (laisser vide si rien)
+        <div class="welcome-card">
+            <p style="color:#475569;font-size:0.88rem;line-height:2;margin:0;">
+                Un énoncé décrit une opération comptable.<br>
+                Le journal est <strong style="color:#e2e8f0">entièrement vide</strong> — à vous de le remplir.<br>
+                <span style="color:#6366f1;font-family:'JetBrains Mono',monospace;font-size:0.82rem;">N° compte</span>
+                &nbsp;·&nbsp;
+                <span style="color:#94a3b8;font-family:'JetBrains Mono',monospace;font-size:0.82rem;">Libellé</span>
+                &nbsp;·&nbsp;
+                <span style="color:#34d399;font-family:'JetBrains Mono',monospace;font-size:0.82rem;">Débit €</span>
+                &nbsp;·&nbsp;
+                <span style="color:#f87171;font-family:'JetBrains Mono',monospace;font-size:0.82rem;">Crédit €</span>
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -612,9 +975,11 @@ elif s["phase"] == "exercice":
     for i in range(nb_lignes):
         c1, c2, c3, c4 = st.columns([1.4, 3, 1.4, 1.4])
         with c1:
-            st.text_input("_", key=f"c_{idx}_{i}",  placeholder="ex: 607")
+            st.text_input("_", key=f"c_{idx}_{i}", placeholder="ex: 607",
+                          on_change=auto_libelle,
+                          args=(f"c_{idx}_{i}", f"l_{idx}_{i}"))
         with c2:
-            st.text_input("_", key=f"l_{idx}_{i}",  placeholder="Libellé du compte")
+            st.text_input("_", key=f"l_{idx}_{i}", placeholder="— auto —", disabled=True)
         with c3:
             st.text_input("_", key=f"d_{idx}_{i}",  placeholder="0")
         with c4:
@@ -668,9 +1033,9 @@ elif s["phase"] == "correction":
     """, unsafe_allow_html=True)
 
     if corr["tout_ok"]:
-        st.markdown('<div class="feedback correct">✅ &nbsp;<strong>Parfait !</strong> Toutes les lignes sont correctes.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="feedback correct"><strong>Parfait !</strong>&nbsp; Toutes les lignes sont correctes.</div>', unsafe_allow_html=True)
     else:
-        st.markdown('<div class="feedback wrong">❌ &nbsp;<strong>Des erreurs sont présentes.</strong> Consultez la correction ci-dessous.</div>', unsafe_allow_html=True)
+        st.markdown('<div class="feedback wrong"><strong>Des erreurs sont présentes.</strong>&nbsp; Consultez la correction ci-dessous.</div>', unsafe_allow_html=True)
 
     st.markdown('<p class="section-title" style="margin-top:1.2rem">✅  Correction complète</p>', unsafe_allow_html=True)
 
@@ -682,10 +1047,10 @@ elif s["phase"] == "correction":
 
     for i, (ligne, res) in enumerate(zip(ex["lignes"], corr["resultats"])):
         c1, c2, c3, c4 = st.columns([1.4, 3, 1.4, 1.4])
-        cc = "#68d391" if res["ok_compte"]  else "#fc8181"
-        lc = "#68d391" if res["ok_libelle"] else "#f6e05e"   # jaune si libellé approché
-        dc = "#68d391" if res["ok_debit"]   else "#fc8181"
-        rc = "#68d391" if res["ok_credit"]  else "#fc8181"
+        cc = "#34d399" if res["ok_compte"]  else "#f87171"
+        lc = "#34d399" if res["ok_libelle"] else "#fbbf24"
+        dc = "#34d399" if res["ok_debit"]   else "#f87171"
+        rc = "#34d399" if res["ok_credit"]  else "#f87171"
         mc = "✓" if res["ok_compte"]  else "✗"
         ml = "✓" if res["ok_libelle"] else "~"   # ~ = libellé trop différent
         with c1:
