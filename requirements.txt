@@ -1,2 +1,4 @@
 streamlit
-anthropic
+pdfplumber
+reportlab
+requests

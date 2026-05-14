@@ -1,0 +1,26 @@
+# Environnement Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Annales PDF (fichiers personnels / droits d'auteur)
+annales_dcg/
+
+# Cache extrait des PDFs
+annales_cache.json
+
+# Annales générées
+annales_generees/
+
+# Modèle IA (trop lourd pour GitHub)
+ia/modele_dcg/
+ia/modele_dcg_candidat/
+ia/data_entrainement.txt
+ia/training_log.json
+
+# Claude settings
+.claude/
+
+# Divers
+*.log
